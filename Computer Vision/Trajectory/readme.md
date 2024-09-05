@@ -9,4 +9,5 @@ Below is a list of research papers related to trajectory prediction, including t
 | QCNet        | [GitHub Repository](https://github.com/ZikangZhou/QCNet)                   | Single & Multi | 
 | HiVT | [GitHub Repository](https://github.com/ZikangZhou/HiVT)            | Single | 
 |ADAPT  | [GitHub Repository](https://kuis-ai.github.io/adapt/)      | Multi | 
+| SEPT | | Single |
 
