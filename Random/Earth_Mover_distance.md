@@ -10,9 +10,10 @@ Earth Mover’s Distance (EMD), also known as the 1-Wasserstein distance, measur
 - **Robust generative training**: WGANs and related models use EMD to stabilize adversarial training by measuring generator-discriminator mismatch in a geometry-aware way.
 - **Number Token Loss (NTL)**: Recent work adds an EMD-based regression‐style token loss to LLM pretraining, boosting math performance by penalizing numeric predictions proportional to their distance from the true values.
 
+![image](https://github.com/user-attachments/assets/63fb0229-b935-41d0-8a72-45715a289206)
 ---
 
-## 1. Quick Start: Implementing EMD in Python
+## 3. Quick Start: Implementing EMD in Python
 
 ```python
 import numpy as np
@@ -45,7 +46,7 @@ loss.backward()
 
 ---
 
-## 2. Code Example: Wasserstein Number Token Loss (NTL)
+## 4. Code Example: Wasserstein Number Token Loss (NTL)
 
 This snippet uses the `WassersteinNumberTokenLoss` class from the [number-token-loss](https://github.com/tum-ai/number-token-loss) repo:
 
@@ -68,9 +69,9 @@ python run_language_modeling.py \
 
 ---
 
-## 3. Advanced Applications in GANs and Other Models
+## 5. Advanced Applications in GANs and Other Models
 
-### 3.1 Wasserstein GANs (WGAN)
+### 5.1 Wasserstein GANs (WGAN)
 
 - **Kantorovich–Rubinstein Duality**: WGAN minimizes the 1-Wasserstein distance between real and generated data distributions via a critic network with Lipschitz constraint.
 - **Loss formulation**:
@@ -82,12 +83,12 @@ python run_language_modeling.py \
   - WGAN-GP (2017): replaces weight clipping with an explicit gradient penalty for stable training (Gulrajani et al.).
   - Spectral Normalization (Miyato et al.): enforces Lipschitz condition by controlling singular values of weight matrices.
 
-### 3.2 EMD in Attention and Ranking
+### 5.2 EMD in Attention and Ranking
 
 - **Differentiable sorting**: Recent methods use EMD to define losses over permutations or rank lists, enabling end-to-end training for tasks like summarization ranking and differentiable top-k selection.
 - **Document retrieval**: EMD between query and document term distributions captures semantic shifts better than simple cosine or KL measures.
 
-### 3.3 Recent Research Highlights
+### 5.3 Recent Research Highlights
 
 | Application                | Paper / Year                 | Usage of EMD                                                                              |
 | -------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------- |
@@ -98,7 +99,7 @@ python run_language_modeling.py \
 
 ---
 
-## 4. Appendix
+## 6. Appendix
 
 ### A. Mathematical Derivation of 1D EMD
 
@@ -129,11 +130,11 @@ Thus, \(EMD(P,Q)=0.3\).
 
 ---
 
-## 5. EMD as a General ML Training Objective
+## 7. EMD as a General ML Training Objective
 
 Beyond specific applications like GANs and number-token losses, EMD can serve as a versatile loss in various ML tasks where outputs or labels lie on a metric or ordered domain:
 
-### 5.1 Regression and Distribution Matching
+### 7.1 Regression and Distribution Matching
 
 - **Histogram regression**: When predicting binned quantities (e.g., age ranges, risk scores), replace MSE on bin indices with EMD to penalize predictions proportionally to bin distance.
 - **Calibration of probabilistic forecasts**: Match predicted probability histograms (e.g., ensemble forecasts, uncertainty estimates) to empirical distributions using Sinkhorn-based OT, yielding better-calibrated models.
@@ -145,17 +146,17 @@ true_hist = one_hot_age_bins  # same shape
 loss_emd = torch.sum(torch.abs(pred_hist.cumsum(-1) - true_hist.cumsum(-1)), dim=-1).mean()
 ```
 
-### 5.2 Ordinal and Cost-Sensitive Classification
+### 7.2 Ordinal and Cost-Sensitive Classification
 
 - **Ordinal labels** (e.g., star ratings, medical stages): Standard cross-entropy treats all misclassifications equally; EMD penalizes by label distance, improving performance on adjacent-class errors.
 - **Cost-sensitive learning**: Define a ground metric reflecting application costs (e.g., misdiagnosis severity), then use EMD to minimize expected cost directly.
 
-### 5.3 Structured Prediction & Sequence Tasks
+### 7.3 Structured Prediction & Sequence Tasks
 
 - **Sequence alignment**: Compare length-normalized histograms of n‑gram features between generated and reference sequences, using EMD to guide language models or summarization systems.
 - **Graph-structured outputs**: For tasks predicting distributions over nodes (e.g., scene graphs, molecular graphs), use EMD over node or feature embeddings to align predicted graphs to ground truth.
 
-### 5.4 Integration Tips
+### 7.4 Integration Tips
 
 1. **Choose the right granularity**: Binning and tokenization should correspond to problem semantics (e.g., quantile bins for continuous targets).
 2. **Compute cost matrix**: Use meaningful ground distances (Euclidean, domain-specific distances). Precompute once if static.
@@ -171,11 +172,11 @@ loss = α * ce_loss + β * emd_loss + γ * mse_loss
 
 ---
 
-## 6. Example: Incorporating EMD in XGBoost
+## 8. Example: Incorporating EMD in XGBoost
 
 EMD can be integrated into XGBoost workflows either as a custom evaluation metric or, more advanced, as a custom objective for ordinal or histogram regression tasks.
 
-### 6.1 Using EMD as a Custom Evaluation Metric
+### 8.1 Using EMD as a Custom Evaluation Metric
 
 Below is a simple example where we train an XGBoost model for predicting a histogram over 5 ordered bins (e.g., risk scores) and evaluate with the 1-Wasserstein distance using SciPy's implementation:
 
@@ -219,7 +220,7 @@ bst = xgb.train(
 
 This reports the average EMD on the training set at each boosting round. You can also pass `feval` under `xgb.cv` or for early stopping.
 
-### 6.2 As a Custom Objective for Ordinal Regression
+### 8.2 As a Custom Objective for Ordinal Regression
 
 For more fine-grained control, you can implement a custom objective that approximates gradients of the EMD loss. For instance, for a 1D CDF-based loss:
 
