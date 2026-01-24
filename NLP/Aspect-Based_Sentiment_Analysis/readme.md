@@ -1,12 +1,14 @@
 # The Problem Statement: Deconstructing Aspect-Based Sentiment Analysis (ABSA)
 
+![Logo of my project](ABSA_1.png)
+
 The fundamental problem is that a single sentiment score for a document (e.g., a product review) is often insufficient and misleading. A 3-star review might contain glowing praise for one feature and scathing criticism of another. **ABSA aims to disambiguate sentiment at a granular level.**
 The paper focuses on compound ABSA tasks, which are significantly harder than simple classification. They require extracting multiple, interdependent elements from a sentence. Let's break down the acronyms, which represent different combinations of these four basic elements:
 
-- Aspect Term (a): The specific words in the text denoting the target (e.g., "waiter").
-- Aspect Category (c): A predefined class the aspect falls into (e.g., "service").
-- Opinion Term (o): The words expressing the sentiment (e.g., "rude").
-- Sentiment Polarity (p): The sentiment class (Positive, Negative, Neutral).
+- **Aspect Term (a)**: The specific words in the text denoting the target (e.g., "waiter").
+- **Aspect Category (c)**: A predefined class the aspect falls into (e.g., "service").
+- **Opinion Term (o)**: The words expressing the sentiment (e.g., "rude").
+- **Sentiment Polarity (p)**: The sentiment class (Positive, Negative, Neutral).
 
 ## The Four Tasks Defined:
 | Task Acronym | Full Name| Goal: Extract Tuple| "Example Sentence: ""The fish was delicious but the service was slow."""|
@@ -56,4 +58,5 @@ For a business, moving from document-level sentiment to aspect-based sentiment i
 
 > **Footenotes**:
 > ¹Orca 2's Advantage: The paper suggests Orca 2's training on "reasoning traces" (step-by-step explanations of how a teacher model arrived at an answer) endows it with better instruction-following capabilities, which is crucial for adhering to the strict output format required for these tasks.
-> ²Prompt-as-Schema: By including the list of valid categories in the prompt, the authors are effectively doing "in-context learning" during the fine-tuning phase. The model learns to attend to this part of the prompt to constrain its output space for the category element of the tuple. 
+> ²Prompt-as-Schema: By including the list of valid categories in the prompt, the authors are effectively doing "in-context learning" during the fine-tuning phase. The model learns to attend to this part of the prompt to constrain its output space for the category element of the tuple.
+
